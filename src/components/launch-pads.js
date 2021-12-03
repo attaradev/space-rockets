@@ -1,11 +1,13 @@
 import React from "react";
-import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/core";
-import { Link } from "react-router-dom";
+import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
+import { FavouriteIcon } from "./favourites";
 import { useSpaceXPaginated } from "../utils/use-space-x";
+import useFavourites from "../hooks/use-favourites";
 
 const PAGE_SIZE = 12;
 
@@ -41,11 +43,21 @@ export default function LaunchPads() {
   );
 }
 
-function LaunchPadItem({ launchPad }) {
+export function LaunchPadItem({ launchPad }) {
+  const navigate = useNavigate();
+  const { toggleLaunchPad, isFavouriteLaunchPad } = useFavourites();
+  const isFavourite = isFavouriteLaunchPad(launchPad);
+
+  const redirect = () => navigate(`/launch-pads/${launchPad.site_id}`);
+  const handleIconClick = (event) => {
+    event.stopPropagation();
+    toggleLaunchPad(launchPad);
+  };
+
   return (
     <Box
-      as={Link}
-      to={`/launch-pads/${launchPad.site_id}`}
+      onClick={redirect}
+      cursor="pointer"
       boxShadow="md"
       borderWidth="1px"
       rounded="lg"
@@ -72,7 +84,11 @@ function LaunchPadItem({ launchPad }) {
             ml="2"
           >
             {launchPad.attempted_launches} attempted &bull;{" "}
-            {launchPad.successful_launches} succeeded
+            {launchPad.successful_launches} succeeded &bull;{" "}
+            <FavouriteIcon
+              onClick={handleIconClick}
+              isFavourite={isFavourite}
+            />
           </Box>
         </Box>
 

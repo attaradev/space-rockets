@@ -14,13 +14,15 @@ import {
   Text,
   Spinner,
   Stack,
-  AspectRatioBox,
-} from "@chakra-ui/core";
+  AspectRatio,
+} from "@chakra-ui/react";
 
 import { useSpaceX } from "../utils/use-space-x";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import { LaunchItem } from "./launches";
+import { FavouriteIcon } from "./favourites";
+import useFavourites from "../hooks/use-favourites";
 
 export default function LaunchPad() {
   let { launchPadId } = useParams();
@@ -68,6 +70,9 @@ const randomColor = (start = 200, end = 250) =>
   `hsl(${start + end * Math.random()}, 80%, 90%)`;
 
 function Header({ launchPad }) {
+  const { isFavouriteLaunchPad, toggleLaunchPad } = useFavourites();
+  const isFavourite = isFavouriteLaunchPad(launchPad);
+
   return (
     <Flex
       background={`linear-gradient(${randomColor()}, ${randomColor()})`}
@@ -91,21 +96,30 @@ function Header({ launchPad }) {
       >
         {launchPad.site_name_long}
       </Heading>
-      <Stack isInline spacing="3">
-        <Badge variantColor="purple" fontSize={["sm", "md"]}>
-          {launchPad.successful_launches}/{launchPad.attempted_launches}{" "}
-          successful
-        </Badge>
-        {launchPad.stats === "active" ? (
-          <Badge variantColor="green" fontSize={["sm", "md"]}>
-            Active
+      <Box>
+        <Box>
+          <FavouriteIcon
+            size="lg"
+            isFavourite={isFavourite}
+            onClick={() => toggleLaunchPad(launchPad)}
+          />
+        </Box>
+        <Stack isInline spacing="3">
+          <Badge variantColor="purple" fontSize={["sm", "md"]}>
+            {launchPad.successful_launches}/{launchPad.attempted_launches}{" "}
+            successful
           </Badge>
-        ) : (
-          <Badge variantColor="red" fontSize={["sm", "md"]}>
-            Retired
-          </Badge>
-        )}
-      </Stack>
+          {launchPad.stats === "active" ? (
+            <Badge variantColor="green" fontSize={["sm", "md"]}>
+              Active
+            </Badge>
+          ) : (
+            <Badge variantColor="red" fontSize={["sm", "md"]}>
+              Retired
+            </Badge>
+          )}
+        </Stack>
+      </Box>
     </Flex>
   );
 }
@@ -140,13 +154,13 @@ function LocationAndVehicles({ launchPad }) {
 
 function Map({ location }) {
   return (
-    <AspectRatioBox ratio={16 / 5}>
+    <AspectRatio ratio={16 / 5}>
       <Box
         as="iframe"
         src={`https://maps.google.com/maps?q=${location.latitude}, ${location.longitude}&z=15&output=embed`}
         alt="demo"
       />
-    </AspectRatioBox>
+    </AspectRatio>
   );
 }
 

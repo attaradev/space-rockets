@@ -1,13 +1,23 @@
 import React from "react";
-import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/core";
+import {
+  Badge,
+  Box,
+  Image,
+  SimpleGrid,
+  Flex,
+  Text,
+  Spacer,
+} from "@chakra-ui/react";
 import { format as timeAgo } from "timeago.js";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useSpaceXPaginated } from "../utils/use-space-x";
 import { formatDate } from "../utils/format-date";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
+import { FavouriteIcon } from "./favourites";
+import useFavourites from "../hooks/use-favourites";
 
 const PAGE_SIZE = 12;
 
@@ -20,7 +30,7 @@ export default function Launches() {
       sort: "launch_date_utc",
     }
   );
-  console.log(data, error);
+
   return (
     <div>
       <Breadcrumbs
@@ -46,15 +56,27 @@ export default function Launches() {
 }
 
 export function LaunchItem({ launch }) {
+  const navigate = useNavigate();
+  const { toggleLaunch, isFavouriteLaunch } = useFavourites();
+  const isFavourite = isFavouriteLaunch(launch);
+  const handleIconClick = (event) => {
+    event.stopPropagation();
+    toggleLaunch(launch);
+  };
+
+  const redirect = (event) => {
+    navigate(`/launches/${launch.flight_number.toString()}`);
+  };
+
   return (
     <Box
-      as={Link}
-      to={`/launches/${launch.flight_number.toString()}`}
+      onClick={redirect}
       boxShadow="md"
       borderWidth="1px"
       rounded="lg"
       overflow="hidden"
       position="relative"
+      cursor="pointer"
     >
       <Image
         src={
@@ -98,6 +120,13 @@ export function LaunchItem({ launch }) {
             ml="2"
           >
             {launch.rocket.rocket_name} &bull; {launch.launch_site.site_name}
+          </Box>
+          <Spacer />
+          <Box>
+            <FavouriteIcon
+              onClick={handleIconClick}
+              isFavourite={isFavourite}
+            />
           </Box>
         </Box>
 
