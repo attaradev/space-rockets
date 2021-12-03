@@ -4,7 +4,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Box,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { ChevronsRight } from "react-feather";
 

@@ -17,15 +17,17 @@ import {
   Image,
   Link,
   Stack,
-  AspectRatioBox,
+  AspectRatio,
   StatGroup,
   Tooltip,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 import { useSpaceX } from "../utils/use-space-x";
 import { formatDateTime } from "../utils/format-date";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
+import { FavouriteIcon } from "./favourites";
+import useFavourites from "../hooks/use-favourites";
 
 export default function Launch() {
   let { launchId } = useParams();
@@ -45,7 +47,7 @@ export default function Launch() {
       <Breadcrumbs
         items={[
           { label: "Home", to: "/" },
-          { label: "Launches", to: ".." },
+          { label: "Launches", to: "/launches" },
           { label: `#${launch.flight_number}` },
         ]}
       />
@@ -64,6 +66,9 @@ export default function Launch() {
 }
 
 function Header({ launch }) {
+  const { isFavouriteLaunch, toggleLaunch } = useFavourites();
+  const isFavourite = isFavouriteLaunch(launch);
+
   return (
     <Flex
       bgImage={`url(${launch.links.flickr_images[0]})`}
@@ -85,31 +90,42 @@ function Header({ launch }) {
         objectFit="contain"
         objectPosition="bottom"
       />
-      <Heading
-        color="white"
-        display="inline"
-        backgroundColor="#718096b8"
-        fontSize={["lg", "5xl"]}
-        px="4"
-        py="2"
-        borderRadius="lg"
-      >
-        {launch.mission_name}
-      </Heading>
-      <Stack isInline spacing="3">
-        <Badge variantColor="purple" fontSize={["xs", "md"]}>
-          #{launch.flight_number}
-        </Badge>
-        {launch.launch_success ? (
-          <Badge variantColor="green" fontSize={["xs", "md"]}>
-            Successful
+      <Box>
+        <Heading
+          color="white"
+          display="inline"
+          backgroundColor="#718096b8"
+          fontSize={["lg", "5xl"]}
+          px="4"
+          py="2"
+          borderRadius="lg"
+        >
+          {launch.mission_name}
+        </Heading>
+      </Box>
+      <Box>
+        <Flex justifyContent="flex-end" pb=".6em">
+          <FavouriteIcon
+            size="lg"
+            onClick={() => toggleLaunch(launch)}
+            isFavourite={isFavourite}
+          />
+        </Flex>
+        <Stack isInline spacing="3">
+          <Badge colorScheme="purple" fontSize={["xs", "md"]}>
+            #{launch.flight_number}
           </Badge>
-        ) : (
-          <Badge variantColor="red" fontSize={["xs", "md"]}>
-            Failed
-          </Badge>
-        )}
-      </Stack>
+          {launch.launch_success ? (
+            <Badge colorScheme="green" fontSize={["xs", "md"]}>
+              Successful
+            </Badge>
+          ) : (
+            <Badge colorScheme="red" fontSize={["xs", "md"]}>
+              Failed
+            </Badge>
+          )}
+        </Stack>
+      </Box>
     </Flex>
   );
 }
@@ -218,14 +234,14 @@ function RocketInfo({ launch }) {
 
 function Video({ launch }) {
   return (
-    <AspectRatioBox maxH="400px" ratio={1.7}>
+    <AspectRatio maxH="400px" ratio={1.7}>
       <Box
         as="iframe"
         title={launch.mission_name}
         src={`https://www.youtube.com/embed/${launch.links.youtube_id}`}
         allowFullScreen
       />
-    </AspectRatioBox>
+    </AspectRatio>
   );
 }
 
