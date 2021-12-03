@@ -55,10 +55,7 @@ export default function Favourites() {
             <DrawerHeader>{`LaunchPads (${launchPads.length})`}</DrawerHeader>
             <SimpleGrid>
               {launchPads.map((launchPad) => (
-                <LaunchPadItem
-                  launchPad={launchPad}
-                  key={launchPad.flight_number}
-                />
+                <LaunchPadItem launchPad={launchPad} key={launchPad.site_id} />
               ))}
             </SimpleGrid>
           </DrawerBody>
@@ -70,8 +67,8 @@ export default function Favourites() {
 
 export function FavouriteIcon({
   onClick,
-  size,
   isFavourite,
+  size = "24",
   variant = "ghost",
 }) {
   return (
@@ -79,8 +76,9 @@ export function FavouriteIcon({
       onClick={onClick}
       variant={variant}
       colorScheme={isFavourite ? "yellow" : "gray"}
-      size={size}
-      icon={<Star />}
+      icon={
+        <Star size={size} {...(isFavourite ? { fill: "currentColor" } : {})} />
+      }
     />
   );
 }

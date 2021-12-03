@@ -47,7 +47,7 @@ export default function Launch() {
       <Breadcrumbs
         items={[
           { label: "Home", to: "/" },
-          { label: "Launches", to: ".." },
+          { label: "Launches", to: "/launches" },
           { label: `#${launch.flight_number}` },
         ]}
       />
@@ -104,21 +104,23 @@ function Header({ launch }) {
         </Heading>
       </Box>
       <Box>
-        <FavouriteIcon
-          size="lg"
-          onClick={() => toggleLaunch(launch)}
-          isFavourite={isFavourite}
-        />
+        <Flex justifyContent="flex-end" pb=".6em">
+          <FavouriteIcon
+            size="lg"
+            onClick={() => toggleLaunch(launch)}
+            isFavourite={isFavourite}
+          />
+        </Flex>
         <Stack isInline spacing="3">
-          <Badge variantColor="purple" fontSize={["xs", "md"]}>
+          <Badge colorScheme="purple" fontSize={["xs", "md"]}>
             #{launch.flight_number}
           </Badge>
           {launch.launch_success ? (
-            <Badge variantColor="green" fontSize={["xs", "md"]}>
+            <Badge colorScheme="green" fontSize={["xs", "md"]}>
               Successful
             </Badge>
           ) : (
-            <Badge variantColor="red" fontSize={["xs", "md"]}>
+            <Badge colorScheme="red" fontSize={["xs", "md"]}>
               Failed
             </Badge>
           )}
