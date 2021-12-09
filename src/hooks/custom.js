@@ -1,6 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import FavouritesContext from "../contexts/favourites";
 
-export default function useLocalStorage(key, initialValue) {
+export function useFavourites() {
+  return useContext(FavouritesContext);
+}
+
+export function useLocalStorage(key, initialValue) {
   const [storedValue, setStoredValue] = useState(() => {
     const item = window.localStorage.getItem(key);
     return item ? JSON.parse(item) : initialValue;

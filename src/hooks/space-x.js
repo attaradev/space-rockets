@@ -5,14 +5,15 @@ const fetcher = async (...args) => {
   if (!response.ok) {
     throw Error(response.statusText);
   }
-  return await response.json();
+  return response.json();
 };
 
 function getSpaceXUrl(path, options) {
   const searchParams = new URLSearchParams();
-  for (const property in options) {
+
+  Object.keys(options || {}).forEach((property) => {
     searchParams.append(property, options[property]);
-  }
+  });
 
   const spaceXApiBase = process.env.REACT_APP_SPACEX_API_URL;
   return `${spaceXApiBase}${path}?${searchParams.toString()}`;

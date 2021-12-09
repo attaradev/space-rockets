@@ -1,10 +1,5 @@
-import React from "react";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Box,
-} from "@chakra-ui/react";
+import PropTypes from "prop-types";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Box } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { ChevronsRight } from "react-feather";
 
@@ -13,16 +8,14 @@ export default function Breadcrumbs({ items }) {
     <Breadcrumb
       m="6"
       spacing="1"
-      separator={<Box size="1em" as={ChevronsRight} color="gray.300" />}
-    >
+      separator={<Box size="1em" as={ChevronsRight} color="gray.300" />}>
       {items.map((item, index) => {
         const isCurrentPage = items.length === index + 1;
         return (
           <BreadcrumbItem isCurrentPage={isCurrentPage} key={item.label}>
             <BreadcrumbLink
               as={!isCurrentPage ? Link : undefined}
-              to={!isCurrentPage ? item.to : undefined}
-            >
+              to={!isCurrentPage ? item.to : undefined}>
               {item.label}
             </BreadcrumbLink>
           </BreadcrumbItem>
@@ -31,3 +24,7 @@ export default function Breadcrumbs({ items }) {
     </Breadcrumb>
   );
 }
+
+Breadcrumbs.propTypes = {
+  items: PropTypes.arrayOf({ label: PropTypes.string, to: PropTypes.string }).isRequired,
+};

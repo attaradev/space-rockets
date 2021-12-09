@@ -1,61 +1,13 @@
-import React from "react";
-import {
-  Badge,
-  Box,
-  Image,
-  SimpleGrid,
-  Flex,
-  Text,
-  Spacer,
-} from "@chakra-ui/react";
-import { format as timeAgo } from "timeago.js";
+import PropTypes from "prop-types";
+import { Badge, Box, Image, Flex, Text, Spacer } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { format as timeAgo } from "timeago.js";
 
-import { useSpaceXPaginated } from "../utils/use-space-x";
-import { formatDate } from "../utils/format-date";
-import Error from "./error";
-import Breadcrumbs from "./breadcrumbs";
-import LoadMoreButton from "./load-more-button";
-import { FavouriteIcon } from "./favourites";
-import useFavourites from "../hooks/use-favourites";
+import { formatDate } from "../../utils/format-date";
+import { useFavourites } from "../../hooks";
+import StarIcon from "./StarIcon";
 
-const PAGE_SIZE = 12;
-
-export default function Launches() {
-  const { data, error, isValidating, setSize, size } = useSpaceXPaginated(
-    "/launches/past",
-    {
-      limit: PAGE_SIZE,
-      order: "desc",
-      sort: "launch_date_utc",
-    }
-  );
-
-  return (
-    <div>
-      <Breadcrumbs
-        items={[{ label: "Home", to: "/" }, { label: "Launches" }]}
-      />
-      <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
-        {error && <Error />}
-        {data &&
-          data
-            .flat()
-            .map((launch) => (
-              <LaunchItem launch={launch} key={launch.flight_number} />
-            ))}
-      </SimpleGrid>
-      <LoadMoreButton
-        loadMore={() => setSize(size + 1)}
-        data={data}
-        pageSize={PAGE_SIZE}
-        isLoadingMore={isValidating}
-      />
-    </div>
-  );
-}
-
-export function LaunchItem({ launch }) {
+export default function LaunchItem({ launch }) {
   const navigate = useNavigate();
   const { toggleLaunch, isFavouriteLaunch } = useFavourites();
   const isFavourite = isFavouriteLaunch(launch);
@@ -64,7 +16,7 @@ export function LaunchItem({ launch }) {
     toggleLaunch(launch);
   };
 
-  const redirect = (event) => {
+  const redirect = () => {
     navigate(`/launches/${launch.flight_number.toString()}`);
   };
 
@@ -76,8 +28,7 @@ export function LaunchItem({ launch }) {
       rounded="lg"
       overflow="hidden"
       position="relative"
-      cursor="pointer"
-    >
+      cursor="pointer">
       <Image
         src={
           launch.links.flickr_images[0]?.replace("_o.jpg", "_z.jpg") ??
@@ -117,26 +68,16 @@ export function LaunchItem({ launch }) {
             letterSpacing="wide"
             fontSize="xs"
             textTransform="uppercase"
-            ml="2"
-          >
+            ml="2">
             {launch.rocket.rocket_name} &bull; {launch.launch_site.site_name}
           </Box>
           <Spacer />
           <Box>
-            <FavouriteIcon
-              onClick={handleIconClick}
-              isFavourite={isFavourite}
-            />
+            <StarIcon onClick={handleIconClick} isFavourite={isFavourite} />
           </Box>
         </Box>
 
-        <Box
-          mt="1"
-          fontWeight="semibold"
-          as="h4"
-          lineHeight="tight"
-          isTruncated
-        >
+        <Box mt="1" fontWeight="semibold" as="h4" lineHeight="tight" isTruncated>
           {launch.mission_name}
         </Box>
         <Flex>
@@ -149,3 +90,18 @@ export function LaunchItem({ launch }) {
     </Box>
   );
 }
+
+LaunchItem.propTypes = {
+  launch: PropTypes.shape({
+    launch_date_utc: PropTypes.string,
+    mission_name: PropTypes.string,
+    launch_success: PropTypes.bool,
+    flight_number: PropTypes.number,
+    links: PropTypes.objectOf({
+      mission_patch_small: PropTypes.string,
+      flickr_images: PropTypes.arrayOf(PropTypes.string),
+    }),
+    rocket: PropTypes.objectOf({ rocket_name: PropTypes.string }),
+    launch_site: PropTypes.objectOf({ site_name: PropTypes.string }),
+  }).isRequired,
+};
