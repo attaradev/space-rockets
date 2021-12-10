@@ -23,8 +23,8 @@ export default function StarIcon({ onClick, isFavourite, size = "24", variant = 
 StarIcon.propTypes = {
   onClick: PropTypes.func.isRequired,
   isFavourite: PropTypes.bool.isRequired,
-  size: PropTypes.number || PropTypes.string,
-  variant: PropTypes.oneOf("ghost", "outlined", "solid"),
+  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  variant: PropTypes.oneOf(["ghost", "outlined", "solid"]),
 };
 
 StarIcon.defaultProps = {

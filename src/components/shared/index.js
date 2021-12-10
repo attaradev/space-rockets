@@ -1,5 +1,5 @@
 export * from "@chakra-ui/react";
-export * from "react-feather";
+export * as Icons from "react-feather";
 export { Link as RouterLink } from "react-router-dom";
 export { default as Breadcrumbs } from "./Breadcrumbs";
 export { default as Error } from "./Error";

@@ -4,7 +4,7 @@ import { Flex, Map, Box, Text, Spinner, Error, Breadcrumbs } from "../shared";
 import LaunchPadHeader from "./LaunchPadHeader";
 import LocationAndVehicles from "./LocationAndVehicles";
 import RecentLaunches from "./RecentLaunches";
-import { useSpaceX } from "../../hooks";
+import { useSpaceX } from "../../hooks/space-x";
 
 export default function LaunchPad() {
   const { launchPadId } = useParams();

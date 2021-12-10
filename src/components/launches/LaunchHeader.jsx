@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Flex, Image, Box, Heading, Badge, Stack } from "@chakra-ui/react";
 
-import { useFavourites } from "../../hooks";
+import { useFavourites } from "../../hooks/favourites";
 import { StarIcon } from "../shared";
 
 export default function LaunchHeader({ launch }) {
@@ -42,7 +42,7 @@ export default function LaunchHeader({ launch }) {
       </Box>
       <Box>
         <Flex justifyContent="flex-end" pb=".6em">
-          <StarIcon size="lg" onClick={() => toggleLaunch(launch)} isFavourite={isFavourite} />
+          <StarIcon size="35" onClick={() => toggleLaunch(launch)} isFavourite={isFavourite} />
         </Flex>
         <Stack isInline spacing="3">
           <Badge colorScheme="purple" fontSize={["xs", "md"]}>
@@ -68,7 +68,10 @@ LaunchHeader.propTypes = {
     mission_name: PropTypes.string,
     launch_success: PropTypes.bool,
     launch_failure: PropTypes.bool,
-    flight_number: PropTypes.string,
-    links: PropTypes.objectOf({ flickr_images: PropTypes.arrayOf(PropTypes.string) }),
+    flight_number: PropTypes.number,
+    links: PropTypes.shape({
+      flickr_images: PropTypes.arrayOf(PropTypes.string),
+      mission_patch_small: PropTypes.string,
+    }),
   }).isRequired,
 };

@@ -2,7 +2,7 @@
 import { useMemo } from "react";
 import PropTypes from "prop-types";
 
-import { useLocalStorage } from "../../hooks";
+import { useLocalStorage } from "../../hooks/favourites";
 import FavouritesContext from "../../contexts/favourites";
 
 export default function FavouritesProvider({ children }) {

@@ -26,5 +26,6 @@ export default function Breadcrumbs({ items }) {
 }
 
 Breadcrumbs.propTypes = {
-  items: PropTypes.arrayOf({ label: PropTypes.string, to: PropTypes.string }).isRequired,
+  items: PropTypes.arrayOf(PropTypes.shape({ label: PropTypes.string, to: PropTypes.string }))
+    .isRequired,
 };

@@ -67,22 +67,18 @@ RocketInfo.propTypes = {
   rocket: PropTypes.shape({
     rocket_name: PropTypes.string,
     rocket_type: PropTypes.string,
-    first_stage: PropTypes.objectOf({
+    first_stage: PropTypes.shape({
       cores: PropTypes.arrayOf(
-        PropTypes.objectOf({
+        PropTypes.shape({
           land_success: PropTypes.bool,
           length: PropTypes.number,
           core_serial: PropTypes.string,
         }),
       ),
     }),
-    second_stage: PropTypes.objectOf({
-      cores: PropTypes.arrayOf(
-        PropTypes.objectOf({
-          block: PropTypes.number,
-          payloads: PropTypes.arrayOf(PropTypes.objectOf({ payload_type: PropTypes.string })),
-        }),
-      ),
+    second_stage: PropTypes.shape({
+      payloads: PropTypes.arrayOf(PropTypes.shape({ payload_type: PropTypes.string })),
+      block: PropTypes.number,
     }),
   }).isRequired,
 };

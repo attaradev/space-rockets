@@ -15,4 +15,7 @@ export default function PageLink({ url, children, ...rest }) {
   );
 }
 
-PageLink.propTypes = { url: PropTypes.string.isRequired, children: PropTypes.element.isRequired };
+PageLink.propTypes = {
+  url: PropTypes.string.isRequired,
+  children: PropTypes.string.isRequired,
+};

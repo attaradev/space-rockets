@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Badge, Box, Text, Flex } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-import { useFavourites } from "../../hooks";
+import { useFavourites } from "../../hooks/favourites";
 import StarIcon from "./StarIcon";
 
 export default function LaunchPadItem({ launchPad }) {
@@ -67,7 +67,7 @@ export default function LaunchPadItem({ launchPad }) {
 
 LaunchPadItem.propTypes = {
   launchPad: PropTypes.shape({
-    vehicles_launched: PropTypes.string,
+    vehicles_launched: PropTypes.arrayOf(PropTypes.string),
     name: PropTypes.string,
     attempted_launches: PropTypes.number,
     successful_launches: PropTypes.number,

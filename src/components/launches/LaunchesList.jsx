@@ -1,17 +1,15 @@
 import { Error, Breadcrumbs, LoadMoreButton, LaunchItem, SimpleGrid } from "../shared";
-import { useSpaceXPaginated } from "../../hooks";
+import { useSpaceXPaginated } from "../../hooks/space-x";
+import { isReachingEnd } from "../../utils/fetch";
 
 const PAGE_SIZE = 12;
 
-export default function Launches() {
+export default function LaunchesList() {
   const { data, error, isValidating, setSize, size } = useSpaceXPaginated("/launches/past", {
     limit: PAGE_SIZE,
     order: "desc",
     sort: "launch_date_utc",
   });
-
-  const isReachingEnd =
-    data?.[0]?.length === 0 || (data && data[data.length - 1]?.length < PAGE_SIZE);
 
   return (
     <div>
@@ -23,7 +21,7 @@ export default function Launches() {
       </SimpleGrid>
       <LoadMoreButton
         loadMore={() => setSize(size + 1)}
-        isReachingEnd={isReachingEnd}
+        isReachingEnd={isReachingEnd(data, PAGE_SIZE) || false}
         isLoadingMore={isValidating}
       />
     </div>

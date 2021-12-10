@@ -11,8 +11,7 @@ import {
   Box,
   RouterLink,
   Link,
-  MapPin,
-  Watch,
+  Icons,
 } from "../shared";
 import { formatDateTime } from "../../utils/format-date";
 
@@ -21,7 +20,7 @@ export default function TimeAndLocation({ launch }) {
     <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
       <Stat>
         <StatLabel display="flex">
-          <Box as={Watch} width="1em" />{" "}
+          <Box as={Icons.Watch} width="1em" />{" "}
           <Box ml="2" as="span">
             Launch Date
           </Box>
@@ -35,7 +34,7 @@ export default function TimeAndLocation({ launch }) {
       </Stat>
       <Stat>
         <StatLabel display="flex">
-          <Box as={MapPin} width="1em" />{" "}
+          <Box as={Icons.MapPin} width="1em" />{" "}
           <Box ml="2" as="span">
             Launch Site
           </Box>

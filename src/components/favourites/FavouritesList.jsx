@@ -13,7 +13,7 @@ import {
   LaunchPadItem,
 } from "../shared";
 
-import { useFavourites } from "../../hooks";
+import { useFavourites } from "../../hooks/favourites";
 
 export default function FavouritesLists() {
   const { isOpen, onOpen, onClose } = useDisclosure();

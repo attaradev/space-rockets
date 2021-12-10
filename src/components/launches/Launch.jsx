@@ -5,7 +5,7 @@ import LaunchHeader from "./LaunchHeader";
 import TimeAndLocation from "./TimeAndLocation";
 import RocketInfo from "./RocketInfo";
 import Gallery from "./Gallery";
-import { useSpaceX } from "../../hooks";
+import { useSpaceX } from "../../hooks/space-x";
 
 export default function Launch() {
   const { launchId } = useParams();

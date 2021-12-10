@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { format as timeAgo } from "timeago.js";
 
 import { formatDate } from "../../utils/format-date";
-import { useFavourites } from "../../hooks";
+import { useFavourites } from "../../hooks/favourites";
 import StarIcon from "./StarIcon";
 
 export default function LaunchItem({ launch }) {
@@ -97,11 +97,11 @@ LaunchItem.propTypes = {
     mission_name: PropTypes.string,
     launch_success: PropTypes.bool,
     flight_number: PropTypes.number,
-    links: PropTypes.objectOf({
+    links: PropTypes.shape({
       mission_patch_small: PropTypes.string,
       flickr_images: PropTypes.arrayOf(PropTypes.string),
     }),
-    rocket: PropTypes.objectOf({ rocket_name: PropTypes.string }),
-    launch_site: PropTypes.objectOf({ site_name: PropTypes.string }),
+    rocket: PropTypes.shape({ rocket_name: PropTypes.string }),
+    launch_site: PropTypes.shape({ site_name: PropTypes.string }),
   }).isRequired,
 };
