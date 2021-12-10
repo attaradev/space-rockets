@@ -4,7 +4,7 @@
 
 ### [👉 Go to the challenge 👈](./CHALLENGE.md)
 
-### [🚀 See the app in action 🚀](https://spacerockets.netlify.app)
+### [🚀 See the app in action 🚀](space-rockets.netlify.app/)
 
 ## Develop
 
@@ -13,6 +13,7 @@
 
 - run `yarn` to install dependencies
 - run `yarn start` to start development environment
+- run `yarn test` to run tests
 
 ## Build
 
@@ -40,9 +41,11 @@ All data is fetched from the unofficial SpaceX API V3 at
 - [Chakra UI](https://chakra-ui.com/) - Design system and component library,
   with [Emotion](https://emotion.sh), its peer dependency
 - [SWR](https://swr.now.sh/) - Data fetching and caching library
-- [React Router v6](https://github.com/ReactTraining/react-router/blob/f59ee5488bc343cf3c957b7e0cc395ef5eb572d2/docs/installation/getting-started.md) -
+- [React Router v6](https://reactrouter.com/docs/en/v6/getting-started/overview) -
   routing library
 - [React Feathers](https://github.com/feathericons/react-feather) - Icons
   ([Feather icons](https://feathericons.com/) wrapper for React)
 - [timeago.js](https://timeago.org/) - Tiny library to display human-readable
   relative time difference
+- [Eslint](https://eslint.org) - For linting (and [Prettier](https://prettier.io/) for code formatting)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro) -  For testing
