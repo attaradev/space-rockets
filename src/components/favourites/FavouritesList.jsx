@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import {
   Button,
   Drawer,
@@ -9,35 +9,23 @@ import {
   DrawerHeader,
   SimpleGrid,
   useDisclosure,
-  IconButton,
-} from "@chakra-ui/react";
-import { Star } from "react-feather";
+  LaunchItem,
+  LaunchPadItem,
+} from "../shared";
 
-import { LaunchItem } from "./launches";
-import { LaunchPadItem } from "./launch-pads";
-import useFavourites from "../hooks/use-favourites";
+import { useFavourites } from "../../hooks/favourites";
 
-export default function Favourites() {
+export default function FavouritesLists() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
   const { launches, launchPads } = useFavourites();
 
   return (
     <>
-      <Button
-        ref={btnRef}
-        onClick={onOpen}
-        variant="outline"
-        colorScheme="primary"
-      >
+      <Button ref={btnRef} onClick={onOpen} variant="outline" colorScheme="primary">
         Show Favourites
       </Button>
-      <Drawer
-        isOpen={isOpen}
-        placement="right"
-        onClose={onClose}
-        finalFocusRef={btnRef}
-      >
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose} finalFocusRef={btnRef}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
@@ -53,7 +41,7 @@ export default function Favourites() {
           </DrawerBody>
           <DrawerBody>
             <DrawerHeader>{`LaunchPads (${launchPads.length})`}</DrawerHeader>
-            <SimpleGrid>
+            <SimpleGrid gap="4rem">
               {launchPads.map((launchPad) => (
                 <LaunchPadItem launchPad={launchPad} key={launchPad.site_id} />
               ))}
@@ -62,23 +50,5 @@ export default function Favourites() {
         </DrawerContent>
       </Drawer>
     </>
-  );
-}
-
-export function FavouriteIcon({
-  onClick,
-  isFavourite,
-  size = "24",
-  variant = "ghost",
-}) {
-  return (
-    <IconButton
-      onClick={onClick}
-      variant={variant}
-      colorScheme={isFavourite ? "yellow" : "gray"}
-      icon={
-        <Star size={size} {...(isFavourite ? { fill: "currentColor" } : {})} />
-      }
-    />
   );
 }

@@ -9,7 +9,7 @@ export function formatDate(timestamp) {
 
 export function formatDateTime(
   timestamp,
-  timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone,
 ) {
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
